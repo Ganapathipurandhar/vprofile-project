@@ -42,7 +42,7 @@ pipeline {
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
             }
         }
-        Stage('free memory'){
+        stage('free memory'){
             step{
                 sh 'free -m'
             }
