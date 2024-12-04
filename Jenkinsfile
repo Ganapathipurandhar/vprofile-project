@@ -43,7 +43,7 @@ pipeline {
             }
         }
         stage('free memory'){
-            step{
+            steps {
                 sh 'free -m'
             }
         }
