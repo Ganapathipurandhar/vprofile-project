@@ -77,7 +77,7 @@ pipeline {
                   nexusUrl: '54.211.181.253:8081',
                   groupId: 'QA',
                   version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-                  repository: 'vprofile-repo',
+                  repository: 'vprofile-release',
                   credentialsId: 'nexuslogin',
                   artifacts: [
                     [artifactId: 'vproapp',
