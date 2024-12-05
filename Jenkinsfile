@@ -93,8 +93,9 @@ pipeline {
                 )
             }
         }
-        post {
-    always {
+    }
+     post {
+      always {
         echo 'Slack Notifications.'  // Logs a message in the Jenkins console to confirm the notification step.
         
         slackSend(
@@ -106,6 +107,6 @@ pipeline {
 }
 
 
-    }
-
 }
+
+
