@@ -1,3 +1,8 @@
+def COLOR_MAP = [
+    'SUCCESS': 'good', 
+    'FAILURE': 'danger',
+]
+
 pipeline {
     agent any
     tools {
@@ -74,7 +79,7 @@ pipeline {
                 nexusArtifactUploader(
                   nexusVersion: 'nexus3',
                   protocol: 'http',
-                  nexusUrl: '54.211.181.253:8081',
+                  nexusUrl: '172.31.43.111:8081',
                   groupId: 'QA',
                   version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
                   repository: 'vprofile-release',
@@ -86,6 +91,15 @@ pipeline {
                      type: 'war']
                   ]
                 )
+            }
+        }
+        post{
+            always{
+                 echo 'Slack Notifications.'
+                 SlackSend channel: '#jenkinscicd',
+                color: COLOR_MAP[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+
             }
         }
     }
