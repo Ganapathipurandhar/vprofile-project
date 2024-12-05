@@ -94,13 +94,17 @@ pipeline {
             }
         }
         post {
-        always {
-            echo 'Slack Notifications.'
-            slackSend channel: '#jenkinscicd',
-                color: COLOR_MAP[currentBuild.currentResult],
-                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
-            }    
-        }
+    always {
+        echo 'Slack Notifications.'  // Logs a message in the Jenkins console to confirm the notification step.
+        
+        slackSend(
+            channel: '#jenkinscicd',  // Specifies the Slack channel where the notification will be sent.
+            color: COLOR_MAP[currentBuild.currentResult],  // Dynamically sets the color based on the build result.
+            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}" // Formats the notification message.
+        )
+    }
+}
+
 
     }
 
