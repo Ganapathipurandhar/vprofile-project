@@ -22,7 +22,9 @@ pipeline {
         NEXUS_LOGIN = 'nexuslogin'
         registryCredential='ecr:us-east-1:awscreds'
         appRegistry='058264135638.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg'
-        vprofileRegistry='https://058264135638.dkr.ecr.us-east-1.amazonaws.com'        
+        vprofileRegistry='https://058264135638.dkr.ecr.us-east-1.amazonaws.com'
+        cluster = 'vproappstage'
+        service = 'vproappstagesvc'        
     }
 
     stages {
@@ -118,7 +120,18 @@ pipeline {
             }
           }
      }
-
+    stage('deploy to ECS') {
+        steps {
+            withAWS(credentials: 'awscreds', region : 'us-east-1') {
+                sh '''
+                    aws ecs update-service \
+                        --cluster ${cluster} \
+                        --service ${service} \
+                        --force-new-deployment 
+                    '''
+            }
+        }
+    }
 }
      post {
       always {
